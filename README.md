@@ -9,7 +9,7 @@ int main()
   /*opzetten van game componenten*/
 
     // maken van een scherm
-    RenderWindow scherm(VideoMode(1280, 800), "naam van onze game");
+    RenderWindow window(VideoMode(1280, 800), "naam van onze game");
 
     //maken van de paddles
     RectangleShape paddle1(vector2f(25,120));
@@ -27,28 +27,28 @@ int main()
     float balsnelheidy = 0.3f;
 
 //game loop
-     while (scherm.isOpen())
+     while (window.isOpen())
      {
         //process events
         Event event;
-        while (scherm.pollEvent(event))
+        while (window.pollEvent(event))
         {
             if (event.type == Event::Closed)
-            scherm.close();
+            window.close();
         }
 
 
 
         //clear scherm
-        scherm.clear();
+        window.clear();
 
         /*tekeningen maken van bal,paddles,achtergrond en scores*/
-        scherm.draw(paddle1);
-        scherm.draw(paddle2);
-        scherm.draw(bal);
+        window.draw(paddle1);
+        window.draw(paddle2);
+        window.draw(bal);
 
         //display wat er is getekend
-        scherm.display();
+        window.display();
      }
     return 0;
 }
