@@ -17,7 +17,7 @@ int main()
     paddle1.setFillColor(Color::Red);
     paddle2.setFillColor(Color::Red);
     paddle1.setPosition(10, 340);
-    paddle1.setPosition(605, 340);
+    paddle2.setPosition(605, 340);
 
     //maken van een ping-pong bal
     CircleShape bal(20);
@@ -36,6 +36,18 @@ int main()
             if (event.type == Event::Closed)
             window.close();
         }
+         //de ball beweegt
+bal.move(balsnelheidx, balsnelheidy);
+
+// Botsingen met de muren
+//bovenste muur
+if (bal.getPosition().y < 0) {
+    balsnelheidy = -balsnelheidy;
+}
+//onderste muurr
+if (bal.getPosition().y + (bal.getRadius() * 2) > window.getSize().y) {
+    balsnelheidy= -balsnelheidy;
+}
 
 
 
