@@ -1,17 +1,16 @@
-#include <windows.h>
-#include <SFML/Audio.hpp>
+ #include <windows.h> 
+#include <SFML/Audio.hpp> 
 #include <SFML/Graphics.hpp>
-#include <iostream>
-using namespace sf;
+ using namespace sf;
 
-int main()
-{
-  /*opzetten van game componenten*/
+ int main() {
+ //opzetten van game componenten 
+ // maken van een scherm
+ const int FPS = 60;
+ RenderWindow window(VideoMode({ 640, 480}), "Ping pong!");
 
-    // maken van een scherm
-    RenderWindow window(VideoMode(1280, 800), "naam van onze game");
 
-    //maken van de paddles
+  //maken van de paddles
     RectangleShape paddle1(vector2f(25,120));
     RectangleShape paddle2(vector2f(25,120));
     paddle1.setFillColor(Color::Red);
@@ -19,48 +18,34 @@ int main()
     paddle1.setPosition(10, 340);
     paddle2.setPosition(605, 340);
 
-    //maken van een ping-pong bal
+   //maken van een ping-pong bal
     CircleShape bal(20);
     ball.setFillColor(Color::Yellow);
-    ball.setPosition(640, 400);
+    ball.setPosition(315,235 );
     float balsnelheidx = -0.3f;
     float balsnelheidy = 0.3f;
 
-//game loop
-     while (window.isOpen())
-     {
-        //process events
-        Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == Event::Closed)
-            window.close();
-        }
-         //de ball beweegt
-bal.move(balsnelheidx, balsnelheidy);
+  //game loop 
+ 
+while(window.isOpen())
+{
+	while (const std::optional event = window.pollEvent())
+	{
+		if (event->is<::Event::Closed>())
+			window.close();
+	}
 
-// Botsingen met de muren
-//bovenste muur
-if (bal.getPosition().y < 0) {
-    balsnelheidy = -balsnelheidy;
-}
-//onderste muurr
-if (bal.getPosition().y + (bal.getRadius() * 2) > window.getSize().y) {
-    balsnelheidy= -balsnelheidy;
-}
-
-
-
-        //clear scherm
-        window.clear();
-
-        /*tekeningen maken van bal,paddles,achtergrond en scores*/
+//clear scherm
+ window.clear();
+ 
+ /*tekeningen maken van bal,paddles,achtergrond en scores*/
         window.draw(paddle1);
         window.draw(paddle2);
         window.draw(bal);
 
-        //display wat er is getekend
-        window.display();
-     }
+  //display wat er is getekend
+   window.display();
+    
+  }
     return 0;
 }
