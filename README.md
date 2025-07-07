@@ -11,8 +11,8 @@
 
 
   //maken van de paddles
-    RectangleShape paddle1(vector2f(25,120));
-    RectangleShape paddle2(vector2f(25,120));
+    RectangleShape paddle1(Vector2f(25,120));
+    RectangleShape paddle2(Vector2f(25,120));
     paddle1.setFillColor(Color::Red);
     paddle2.setFillColor(Color::Red);
     paddle1.setPosition(10, 340);
@@ -20,8 +20,8 @@
 
    //maken van een ping-pong bal
     CircleShape bal(20);
-    ball.setFillColor(Color::Yellow);
-    ball.setPosition(315,235 );
+    bal.setFillColor(Color::Yellow);
+    bal.setPosition(315,235 );
     float balsnelheidx = -0.3f;
     float balsnelheidy = 0.3f;
 
