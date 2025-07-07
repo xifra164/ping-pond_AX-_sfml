@@ -70,6 +70,26 @@ if (bal.getPosition().x + (bal.getRadius() * 2) >= window.getSize().x) {
 	
 	
 }
+ //paddle 1 beweging//
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
+	if (paddle1.getPosition().y > 0)
+    	paddle1.move((sf::Vector2f(0, -paddle1snelheid))); // Paddle 2 beweegt naar boven
+}
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
+	if (paddle1.getPosition().y + paddle1.getSize().y < windowHeight)
+		paddle1.move((sf::Vector2f(0, paddle1snelheid))); // Paddle 1 beweegt naar beneden	
+}
+
+//Paddle 2 (Up/Down)
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
+	if (paddle2.getPosition().y > 0)
+		paddle2.move((sf::Vector2f(0, -paddle2snelheid)));
+}
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {
+	if (paddle2.getPosition().y + paddle2.getSize().y < windowHeight)
+		paddle2.move((sf::Vector2f(0, paddle2snelheid)));
+}
+	paddle2.move((sf::Vector2f(cpu, balsnelheidy)));
  
  //clear scherm
  window.clear();
