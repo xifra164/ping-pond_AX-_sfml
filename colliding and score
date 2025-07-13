@@ -1,0 +1,144 @@
+// Check collision with all paddles
+FloatRect ballBounds = bal.getGlobalBounds();
+FloatRect paddle1Bounds = paddle1.getGlobalBounds();
+FloatRect paddle2Bounds = paddle2.getGlobalBounds();
+
+if (ballBounds.intersects(paddle1Bounds)) {
+    // Only bounce if moving toward paddle1
+    if (balsnelheidx < 0) {
+        balsnelheidx *= -1;
+        
+        // Adjust ball position to prevent sticking
+        bal.setPosition(paddle1.getPosition().x + paddle1.getSize().x + 1, bal.getPosition().y);
+        
+        // Add vertical direction based on where ball hits paddle
+        float hitPosition = (bal.getPosition().y + ballRadius - paddle1.getPosition().y) / paddle1.getSize().y;
+        balsnelheidy = 8 * (hitPosition - 0.5f); // -4 to +4 range
+    }
+}
+
+if (ballBounds.intersects(paddle2Bounds)) {
+    // Only bounce if moving toward paddle2
+    if (balsnelheidx > 0) {
+        balsnelheidx *= -1;
+        
+        // Adjust ball position to prevent sticking
+        bal.setPosition(paddle2.getPosition().x - ballBounds.width - 1, bal.getPosition().y);
+        
+        // Add vertical direction based on where ball hits paddle
+        float hitPosition = (bal.getPosition().y + ballRadius - paddle2.getPosition().y) / paddle2.getSize().y;
+        balsnelheidy = 8 * (hitPosition - 0.5f); // -4 to +4 range
+    }
+}
+
+
+
+// ---------------------------------------------------
+// Initialize scores and winning condition
+int player1_score = 0;
+int player2_score = 0;
+const int winning_score = 2;
+bool game_over = false;
+int winner = 0; // 0 = no winner, 1 = player1, 2 = player2
+
+// Create font and text for messages
+Font font;
+if (!font.loadFromFile("arial.ttf")) {
+    // Handle font loading error
+    return EXIT_FAILURE;
+}
+
+Text winText;
+winText.setFont(font);
+winText.setCharacterSize(60);
+winText.setFillColor(Color::White);
+winText.setStyle(Text::Bold);
+
+Text scoreText;
+scoreText.setFont(font);
+scoreText.setCharacterSize(40);
+scoreText.setFillColor(Color::White);
+
+// ... [inside game loop after collision detection] ...
+
+// Add scoring
+if (ballBounds.left <= 0) {
+    // Player 2 scores (right paddle)
+    player2_score++;
+    
+    // Reset ball with random direction
+    bal.setPosition(windowWidth / 2 - ballRadius, windowHeight / 2 - ballRadius);
+    balsnelheidx = 4;
+    balsnelheidy = (rand() % 7) - 3; // Random angle between -3 to +3
+    
+    // Check for winner
+    if (player2_score >= winning_score) {
+        game_over = true;
+        winner = 2;
+    }
+}
+else if (ballBounds.left + ballBounds.width >= windowWidth) {
+    // Player 1 scores (left paddle)
+    player1_score++;
+    
+    // Reset ball with random direction
+    bal.setPosition(windowWidth / 2 - ballRadius, windowHeight / 2 - ballRadius);
+    balsnelheidx = -4;
+    balsnelheidy = (rand() % 7) - 3; // Random angle between -3 to +3
+    
+    // Check for winner
+    if (player1_score >= winning_score) {
+        game_over = true;
+        winner = 1;
+    }
+}
+
+// ... [inside drawing section] ...
+
+// Draw scores
+scoreText.setString(std::to_string(player1_score) + " - " + std::to_string(player2_score));
+scoreText.setPosition(windowWidth/2 - scoreText.getLocalBounds().width/2, 20);
+window.draw(scoreText);
+
+// Draw win/lose messages
+if (game_over) {
+    // Create semi-transparent overlay
+    RectangleShape overlay(Vector2f(windowWidth, windowHeight));
+    overlay.setFillColor(Color(0, 0, 0, 180));
+    window.draw(overlay);
+    
+    // Set win/lose message
+    if (winner == 1) {
+        winText.setString("Player 1 Wins!\nCongratulations!");
+        winText.setFillColor(Color::Green);
+    } else {
+        winText.setString("Player 2 Wins!\nBetter luck next time!");
+        winText.setFillColor(Color::Red);
+    }
+    
+    // Position text in center
+    winText.setPosition(
+        windowWidth/2 - winText.getLocalBounds().width/2,
+        windowHeight/2 - winText.getLocalBounds().height
+    );
+    
+    window.draw(winText);
+    
+    // Add restart prompt
+    Text restartText("Press SPACE to play again", font, 30);
+    restartText.setPosition(
+        windowWidth/2 - restartText.getLocalBounds().width/2,
+        windowHeight/2 + 50
+    );
+    window.draw(restartText);
+    
+    // Restart game on space press
+    if (Keyboard::isKeyPressed(Keyboard::Space)) {
+        player1_score = 0;
+        player2_score = 0;
+        game_over = false;
+        bal.setPosition(windowWidth / 2 - ballRadius, windowHeight / 2 - ballRadius);
+        balsnelheidx = (rand() % 2 == 0) ? -4 : 4;
+        balsnelheidy = (rand() % 7) - 3;
+    }
+}
