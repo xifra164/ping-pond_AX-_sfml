@@ -1,3 +1,4 @@
+
 #include <windows.h> 
 #include <SFML/Audio.hpp> 
 #include <SFML/Graphics.hpp>
@@ -11,6 +12,7 @@ int main() {
     float windowHeight = 480;
 	float windowWidth = 640;
     
+
 
         //maken van de paddles
     RectangleShape paddle1(Vector2f(25, 120));
@@ -102,7 +104,7 @@ int main() {
         FloatRect ballBounds = bal.getGlobalBounds();
         FloatRect paddle1Bounds = paddle1.getGlobalBounds();
         FloatRect paddle2Bounds = paddle2.getGlobalBounds();
-		
+
 
         if (ballBounds.findIntersection(paddle1Bounds)) {
             // Only bounce if moving toward paddle1
@@ -141,12 +143,12 @@ int main() {
 
         // Create font and text for messages
         Font font;
-        if (!font.openFromFile ("arial.ttf")) {
+        if (!font.openFromFile("arial.ttf")) {
             // Handle font loading error
             return EXIT_FAILURE;
         }
 
-       sf::Text winText(font);
+        sf::Text winText(font);
         winText.setFont(font);
         winText.setCharacterSize(60);
         winText.setFillColor(Color::White);
@@ -236,14 +238,14 @@ int main() {
 
                 window.draw(winText);
 
-            
+
                 // Add restart prompt
                 sf::Text restartText(font);
-				restartText.setString("Press Space to Restart");
-				restartText.setCharacterSize(30);
+                restartText.setString("Press Space to Restart");
+                restartText.setCharacterSize(30);
                 restartText.setPosition
-               (sf::Vector2f(windowWidth / 2 - restartText.getLocalBounds().width / 2,
-                        windowHeight / 2 + 50));
+                (sf::Vector2f(windowWidth / 2 - restartText.getLocalBounds().width / 2,
+                    windowHeight / 2 + 50));
 
 
                 window.draw(restartText);
@@ -252,5 +254,6 @@ int main() {
             //display wat er is getekend
             window.display();
         }
-        return 0;
     }
+        return 0;
+    
