@@ -8,7 +8,8 @@ int main() {
 	// maken van een scherm
 	const int FPS = 60;
 	RenderWindow window(VideoMode({ 640, 480 }), "Ping pong!");
-	float windowHeight = 480;
+        float windowWidth = 640;
+        float windowHeight = 480;
 
 
 	//maken van de paddles
@@ -18,8 +19,8 @@ int main() {
 	paddle2.setFillColor(Color::Red);
 	paddle1.setPosition(Vector2f(10, 340));
 	paddle2.setPosition(Vector2f(605, 340));
-	float paddle1snelheid = 5.0;
-	float paddle2snelheid = 5.0;
+	float paddle1snelheid = 5.0f;
+	float paddle2snelheid = 5.0f;
 	
 	float cpu = 0.0f;
 
