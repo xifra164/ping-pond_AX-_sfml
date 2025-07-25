@@ -520,7 +520,7 @@ break; // Einde van PLAYING case
 					std::cout << "DEBUG: Win/Verlies bericht getekend." << std::endl; // Debug output
 					break; // Einde van GAME_OVER case
 
-
+}
 }
 
 
