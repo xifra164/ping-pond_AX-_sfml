@@ -36,6 +36,12 @@ const int* globalBallRadiusPtr = nullptr;
 float* globalWindowWidthPtr = nullptr;
 float* globalWindowHeightPtr = nullptr;
 
+
+
+
+
+
+
 void centerText(Text& text, float windowWidth, float windowHeight, float yOffset = 0.0f, float xOffset = 0.0f, float outlineThickness = 0.0f);
 
 
@@ -84,11 +90,15 @@ int main() {
 	RenderWindow window(VideoMode({ 640, 480 }), "Ping pong!");
 
 	// NIEUW: Achtergrondafbeelding voor de galaxy
+
 	sf::Texture texture;
-
-	texture.loadFromFile("galaxy_background.jpg");
-
+	if (!texture.loadFromFile("IMG_0852.jpg"))
+		std::cout << "failed load";
 	sf::Sprite sprite(texture);
+	
+	
+	
+
 
 
 	float windowHeight = 480;
@@ -195,6 +205,7 @@ int main() {
 	instructionsText.setCharacterSize(30);
 	instructionsText.setFillColor(Color::Magenta);
 
+
 	sf::Text player1ScoreText(font);
 	player1ScoreText.setFont(font);
 	player1ScoreText.setCharacterSize(40);
@@ -221,6 +232,7 @@ int main() {
 	sf::Text winLoseMessageText(font);
 	winLoseMessageText.setCharacterSize(60);
 	winLoseMessageText.setStyle(Text::Bold);
+
 
 	sf::Text restartPromptText(font);
 	restartPromptText.setCharacterSize(30);
@@ -302,6 +314,8 @@ int main() {
 		}
 
 		window.clear(sf::Color::Black);
+		window.draw(sprite);
+		
 
 
 
@@ -323,8 +337,13 @@ int main() {
 			window.draw(messageText);
 
 			// Teken de instructies voor de speler
-			instructionsText.setString("Druk op SPATIE om te starten\nDruk op ESC om af te sluiten");
+			instructionsText.setString("Press space to play\nPress ESC to exit");
 			instructionsText.setFillColor(Color::Magenta);
+			instructionsText.setOutlineThickness(2);
+			instructionsText.setOutlineColor(Color::Blue);
+
+			
+
 			// ALTERNATIEVE MANIER: Positioneer de tekst handmatig.
 			instructionsText.setPosition(sf::Vector2f(windowWidth / 2.0f - (instructionsText.getCharacterSize() * 12.0f) / 2.0f, // Geschatte breedte
 				windowHeight / 2.0f + (instructionsText.getCharacterSize() / 2.0f) + 50.0f)); // Geschatte hoogte
@@ -538,33 +557,51 @@ int main() {
 						messageText.setOutlineThickness(3); // Behoud omtrek
 						messageText.setOutlineColor(Color::Magenta); // Behoud omtrek kleur
 
+	
+
+
+
 						// Positionering: iets hoger dan het midden
-						messageText.setPosition(sf::Vector2f(windowWidth / 2.0f - (messageText.getCharacterSize() * 4.0f) / 2.0f,
-							windowHeight / 2.0f - (messageText.getCharacterSize() / 2.0f) - 50.0f));
+						messageText.setPosition(sf::Vector2f(windowWidth / 2.0f - (messageText.getCharacterSize() * 6.0f) / 2.0f,
+						windowHeight / 2.0f - (messageText.getCharacterSize() / 2.0f) - 50.0f));
 						window.draw(messageText);
 
 						// Winnaar bericht
 						if (winner == 1) {
-							winLoseMessageText.setString("Speler 1 Wint!");
-							winLoseMessageText.setFillColor(Color::Blue);
+							winLoseMessageText.setString("Player 1 Won!");
+							winLoseMessageText.setFillColor(Color::Magenta);
+							winLoseMessageText.setOutlineThickness(2);
+							winLoseMessageText.setOutlineColor(Color::Blue);
+
 						}
 						else {
-							winLoseMessageText.setString("Speler 2 Wint!");
-							winLoseMessageText.setFillColor(Color::Blue);
+							winLoseMessageText.setString("Player 2 Won!");
+							winLoseMessageText.setFillColor(Color::Magenta);
+							winLoseMessageText.setOutlineThickness(2);
+							winLoseMessageText.setOutlineColor(Color::Blue);
+
+
 						}
 						winLoseMessageText.setCharacterSize(40); // Iets kleiner dan de titel
 						// Positionering: onder "GAME OVER!"
-						winLoseMessageText.setPosition(sf::Vector2f(messageText.getPosition().x,
-							messageText.getPosition().y - (winLoseMessageText.getCharacterSize() / 2.0f) - 20.0f)); // 20 pixels boven messageText
+						winLoseMessageText.setPosition(sf::Vector2f(messageText.getPosition().x + 70.0f, // Increased offset to shift further right
+						messageText.getPosition().y - (winLoseMessageText.getCharacterSize() / 2.0f) - 50.0f)); // Using user's provided Y calculation
 						window.draw(winLoseMessageText);
+
 						std::cout << "DEBUG: Win/Verlies bericht getekend." << std::endl; // Debug output
 						// Einde van GAME_OVER case
 						// Teken de instructies voor de speler
-						instructionsText.setString("Druk op SPATIE om weer te spelen \nDruk op ESC om af te sluiten");
+						instructionsText.setString("Press space to play again \nPress ESC to exit");
 						instructionsText.setFillColor(Color::Magenta);
+						instructionsText.setOutlineThickness(2);
+						instructionsText.setOutlineColor(Color::Blue);
+
+						
+
+
 						// ALTERNATIEVE MANIER: Positioneer de tekst handmatig.
 						instructionsText.setPosition(sf::Vector2f(windowWidth / 2.0f - (instructionsText.getCharacterSize() * 12.0f) / 2.0f, // Geschatte breedte
-							windowHeight / 2.0f + (instructionsText.getCharacterSize() / 2.0f) + 50.0f)); // Geschatte hoogte
+						windowHeight / 2.0f + (instructionsText.getCharacterSize() / 2.0f) + 50.0f)); // Geschatte hoogte
 						window.draw(instructionsText);
 						break;
 
@@ -573,7 +610,7 @@ int main() {
 		}
 
 		
-
+		
 		window.display();
 
 
